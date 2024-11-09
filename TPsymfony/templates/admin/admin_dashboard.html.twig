@@ -1,0 +1,133 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord Administrateur {% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+
+        .blockTable {
+            margin: 0 auto;
+            max-width: 90%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="blockTable">
+        <h1>Tableau de bord Administrateur</h1>
+
+        <h2>Réservations</h2>
+{#        <a id="addBooking" href="" class="btn btn-success mb-3">Ajouter</a>#}
+        <a id="deleteBooking" class="btn btn-danger mb-3">Supprimer</a>
+
+        <div class="row mb-2">
+            <div class="col-md-12">
+
+                <table id="bookingsTable" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllBookings"></th>
+                        <th>ID</th>
+                        <th>Utilisateur</th>
+                        <th>Service</th>
+                        <th>Date</th>
+                        <th>Heure</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for booking in bookings %}
+                        <tr>
+                            <td><input type="checkbox" class="bookingCheckbox" value="{{ booking.id }}"></td>
+                            <td>{{ booking.id }}</td>
+                            <td>{{ booking.user.email }}</td>
+                            <td>{{ booking.service.name }}</td>
+                            <td>{{ booking.date|date('Y-m-d') }}</td>
+                            <td>{{ booking.time|date('H:i') }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="col-md-12">
+
+                <h2>Services</h2>
+                <a id="addService" href="{{ path('new_service') }}" class="btn btn-success mb-3">Ajouter</a>
+                <a id="deleteService" class="btn btn-danger mb-3">Supprimer</a>
+
+                <table id="servicesTable" class="table">
+                    <thead>
+                    <tr>
+                        <th><input type="checkbox" id="selectAllServices"></th>
+                        <th>ID</th>
+                        <th>Nom</th>
+                        <th>Description</th>
+                        <th>Prix</th>
+                        <th>Action</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for service in services %}
+                        <tr>
+                            <td><input type="checkbox" class="serviceCheckbox" value="{{ service.id }}"></td>
+                            <td>{{ service.id }}</td>
+                            <td>{{ service.name }}</td>
+                            <td>{{ service.description }}</td>
+                            <td>{{ service.price }} €</td>
+                            <td>
+                                <a href="{{ path('edit_service', {'id': service.id}) }}" class="btn btn-warning">Modifier</a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(document).ready(function () {
+            $('#bookingsTable').DataTable();
+            $('#servicesTable').DataTable();
+
+            $('#selectAllBookings').click(function () {
+                $('.bookingCheckbox').prop('checked', this.checked);
+            });
+
+            $('#selectAllServices').click(function () {
+                $('.serviceCheckbox').prop('checked', this.checked);
+            });
+
+            $('#deleteBooking').click(function () {
+                let selectedBookings = $('.bookingCheckbox:checked');
+                if (selectedBookings.length === 0) {
+                    alert('Aucune réservation sélectionnée.');
+                } else {
+                    let confirmation = confirm(`Êtes-vous sûr de vouloir supprimer ${selectedBookings.length} réservations ?`);
+                    if (confirmation) {
+                        alert('Réservations supprimées (simulé).');
+                    }
+                }
+            });
+
+            $('#deleteService').click(function () {
+                let selectedServices = $('.serviceCheckbox:checked');
+                if (selectedServices.length === 0) {
+                    alert('Aucun service sélectionné.');
+                } else {
+                    let confirmation = confirm(`Êtes-vous sûr de vouloir supprimer ${selectedServices.length} services ?`);
+                    if (confirmation) {
+
+                        alert('Services supprimés (simulé).');
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Accueil
+{% endblock %}
+
+{% block body %}
+    <h1 style="text-align: center">{{ message }}</h1>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Mes reservations</h5>
+                        <i class="bi bi-calendar display-4 my-3"></i>
+                        <p class="card-text"></p>
+                        <a href="{{ path('bookings_user') }}" class="btn btn-primary">Voir mes reservations</a>
+                    </div>
+                </div>
+            </div>
+            {% for service in services %}
+                <div class="col-md-4 mb-4 service-card {{ service.name|lower|replace({' ': '-'}) }}">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ service.name }}</h5>
+                            <i class="bi bi-scissors display-4 my-3"></i>
+                            <p class="card-text"></p>
+                            <a href="{{ path('booking', {'idService': service.id}) }}" class="btn btn-primary">Voir Détails</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+    <script>
+        $(document).ready(function() {
+            // Fonction pour filtrer les cartes de services
+            $('.service-item').click(function(e) {
+                e.preventDefault();
+                let serviceClass = $(this).text().toLowerCase().replace(/ /g, '-');
+                console.log(serviceClass)
+                $('.service-card').hide();
+                $('.' + serviceClass).show();
+            });
+
+            $('.service-card').show();
+        });
+    </script>
+{% endblock %}
