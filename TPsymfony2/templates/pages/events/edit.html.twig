@@ -1,0 +1,77 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Modification de l'événement : {{ event.name }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        .event-form .form-control {
+            border-radius: 5px;
+        }
+        .event-form .btn {
+            border-radius: 5px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-sm">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h4>Modifier l'événement</h4>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(form, { 'attr': {'class': 'event-form'} }) }}
+
+                        <div class="form-group mb-3">
+                            {{ form_label(form.name, 'Nom de l\'événement', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.name, { 'attr': { 'class': 'form-control', 'placeholder': 'Ex: Réunion annuelle' } }) }}
+                            {{ form_errors(form.name) }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form_label(form.date, 'Date de l\'événement', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.date, { 'attr': { 'class': 'form-control date-picker', 'placeholder': 'Choisissez une date' } }) }}
+                            {{ form_errors(form.date) }}
+                        </div>
+
+                        <div class="form-group mb-3">
+                            {{ form_label(form.city, 'Location de l\'événement', { 'label_attr': { 'class': 'form-label' } }) }}
+                            {{ form_widget(form.city, { 'attr': { 'class': 'form-control', 'placeholder': 'Choisissez un Lieu' } }) }}
+                            {{ form_errors(form.city) }}
+                        </div>
+
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-success">
+                                <i class="fas fa-check"></i> Confirmer la modification
+                            </button>
+                            <a href="{{ path('admin_dashboard') }}" class="btn btn-secondary">
+                                <i class="fas fa-arrow-left"></i> Retour
+                            </a>
+                        </div>
+
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('.date-picker', {
+                locale: 'fr',
+                dateFormat: 'd-m-Y',
+                minDate: 'today'
+            });
+        });
+    </script>
+{% endblock %}

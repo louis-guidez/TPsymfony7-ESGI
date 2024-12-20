@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter un Service{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1 class="mb-4">Ajouter le service</h1>
+
+        {{ form_start(form) }}
+        <div class="mb-3">
+            {{ form_row(form.name) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(form.description) }}
+        </div>
+        <div class="mb-3">
+            {{ form_row(form.price) }}
+        </div>
+        <button type="submit" class="btn btn-success">Ajouter un Service</button>
+        {{ form_end(form) }}
+
+        <a href="{{ path('admin_dashboard') }}" class="btn btn-secondary mt-2">Retour au tableau de bord</a>
+    </div>
+{% endblock %}

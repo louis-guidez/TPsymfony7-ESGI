@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Réservation pour {{ service.name }}
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <style>
+        #calendar {
+            max-width: 90%;
+            max-height: 90%;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="row m-auto text-center">
+        <div class="col-md-12">
+            <h1 class="mt-4">{{ service.name }}</h1>
+            <p class="lead">{{ service.description }}</p>
+            <p><strong>Prix :</strong> {{ service.price }} €</p>
+
+            <h2 class="mt-5">Modifier le créneau</h2>
+
+            {{ form_start(form, { 'attr': {'class': 'reservation-form'} }) }}
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="form-group mb-3">
+                        {{ form_row(form.date) }}
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group mb-3">
+                        {{ form_row(form.time) }}
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-success">Confirmer la modification de la réservation</button>
+            {{ form_end(form) }}
+
+            <a href="{{ path('bookings_user') }}" class="btn btn-secondary mt-3">Retour aux réservations</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            flatpickr('.date-picker', {
+                locale: 'fr',
+                minDate: 'today',
+                disable: [
+                    function (date) {
+                        return (date.getDay() === 0 || date.getDay() === 6);
+                    },
+                    '2024-01-01', '2024-05-01', '2024-12-25'
+                ]
+            });
+        });
+    </script>
+{% endblock %}
